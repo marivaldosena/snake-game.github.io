@@ -5,6 +5,7 @@ const DOWN = "down";
 
 let canvas = document.getElementById("snake");
 let context = canvas.getContext("2d");
+let game = null;
 let box = 32;
 let direction = RIGHT;
 let snake = [];
@@ -56,7 +57,7 @@ function update(event) {
     }
 }
 
-function startGame() {
+function resetSnakePositionIfConstraintsWereTrespassed() {
     // Check box constraints and reset values, if necessary
     if (snake[0].x > 15 * box && direction === RIGHT) {
         snake[0].x = 0;
@@ -73,6 +74,20 @@ function startGame() {
     if (snake[0].y < 0 && direction === UP) {
         snake[0].y = 16 * box;
     }
+}
+
+function checkCollisionAndResetGameIfNecessary() {
+    for (let i = 1; i < snake.length; i++) {
+        if (snake[0].x === snake[i].x && snake[0].y === snake[i].y) {
+            clearInterval(game);
+            alert("Game Over :(");
+        }
+    }
+}
+
+function startGame() {
+    resetSnakePositionIfConstraintsWereTrespassed();
+    checkCollisionAndResetGameIfNecessary();
 
     createBG();
     createSnake();
@@ -115,7 +130,7 @@ function startGame() {
 }
 
 document.addEventListener("DOMContentLoaded", function() {
-    let game = setInterval(startGame, 100);
+    game = setInterval(startGame, 100);
 });
 
 document.addEventListener("keydown", update);
