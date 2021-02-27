@@ -44,9 +44,27 @@ function update(event) {
 }
 
 function startGame() {
+    // Check box constraints and reset values, if necessary
+    if (snake[0].x > 15 * box && direction === RIGHT) {
+        snake[0].x = 0;
+    }
+
+    if (snake[0].x < 0 && direction === LEFT) {
+        snake[0].x = 16 * box;
+    }
+
+    if (snake[0].y > 15 * box && direction === DOWN) {
+        snake[0].y = 0;
+    }
+
+    if (snake[0].y < 0 && direction === UP) {
+        snake[0].y = 16 * box;
+    }
+
     createBG();
     createSnake();
 
+    // Move snake direction
     let snakeX = snake[0].x;
     let snakeY = snake[0].y;
 
@@ -63,7 +81,8 @@ function startGame() {
         case DOWN:
             snakeY += box;
             break;
-        default: break;
+        default:
+            break;
     }
 
     snake.pop();
