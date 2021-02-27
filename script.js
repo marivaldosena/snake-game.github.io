@@ -29,6 +29,10 @@ function createSnake() {
     }
 }
 
+function getRandomNumber() {
+    return Math.floor(Math.random() * 15 + 1) * box;
+}
+
 function drawFood() {
     context.fillStyle = "red";
     context.fillRect(food.x, food.y, box, box);
@@ -95,7 +99,12 @@ function startGame() {
             break;
     }
 
-    snake.pop();
+    if (snakeX != food.x || snakeY != food.y) {
+        snake.pop();
+    } else {
+        food.x = getRandomNumber();
+        food.y = getRandomNumber();
+    }
 
     let newHead = {
         x: snakeX,
